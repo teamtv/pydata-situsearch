@@ -1,14 +1,12 @@
 from dataclasses import replace
 
+import pytest
+
 from domain import SearchEngine, MunkresMatcher, TrackingDataset, Frame, Point, Result
 
 
 class TestSearchEngine:
     def test_empty_resultset(self):
-        search_engine = SearchEngine(
-            matcher=MunkresMatcher()
-        )
-
         query_frame = Frame(
             frame_id=0,
             timestamp=0,
@@ -18,18 +16,18 @@ class TestSearchEngine:
         )
 
         dataset = TrackingDataset(
+            dataset_id="test",
             frames=[]
         )
 
-        resultset = search_engine.search(query_frame, dataset)
+        resultset = SearchEngine.search(
+            dataset,
+            matcher=MunkresMatcher(query_frame)
+        )
 
         assert len(resultset.results) == 0
 
     def test_same_frame(self):
-        search_engine = SearchEngine(
-            matcher=MunkresMatcher()
-        )
-
         query_frame = Frame(
             frame_id=0,
             timestamp=0,
@@ -39,18 +37,18 @@ class TestSearchEngine:
         )
 
         dataset = TrackingDataset(
+            dataset_id="test",
             frames=[query_frame]
         )
 
-        resultset = search_engine.search(query_frame, dataset)
+        resultset = SearchEngine.search(
+            dataset,
+            matcher=MunkresMatcher(query_frame)
+        )
 
         assert len(resultset.results) == 0
 
     def test_single_match(self):
-        search_engine = SearchEngine(
-            matcher=MunkresMatcher()
-        )
-
         query_frame = Frame(
             frame_id=0,
             timestamp=0,
@@ -60,6 +58,7 @@ class TestSearchEngine:
         )
 
         dataset = TrackingDataset(
+            dataset_id="test",
             frames=[
                 replace(
                     query_frame,
@@ -68,16 +67,14 @@ class TestSearchEngine:
             ]
         )
 
-        resultset = search_engine.search(query_frame, dataset)
+        resultset = SearchEngine.search(
+            dataset,
+            matcher=MunkresMatcher(query_frame)
+        )
 
         assert resultset.results == [Result(frame_id=1, score=100)]
 
-
     def test_min_score(self):
-        search_engine = SearchEngine(
-            matcher=MunkresMatcher()
-        )
-
         query_frame = Frame(
             frame_id=0,
             timestamp=0,
@@ -87,6 +84,7 @@ class TestSearchEngine:
         )
 
         dataset = TrackingDataset(
+            dataset_id="test",
             frames=[
                 replace(
                     query_frame,
@@ -100,7 +98,34 @@ class TestSearchEngine:
             ]
         )
 
-        resultset = search_engine.search(query_frame, dataset)
+        resultset = SearchEngine.search(
+            dataset,
+            matcher=MunkresMatcher(query_frame)
+        )
 
         assert resultset.results == [Result(frame_id=3, score=100)]
 
+    def test_result_score(self):
+        with pytest.raises(ValueError):
+            score = Result(
+                frame_id=1,
+                score=-1
+            )
+
+        with pytest.raises(ValueError):
+            score = Result(
+                frame_id=1,
+                score=101
+            )
+
+        result = Result(
+            frame_id=1,
+            score=0
+        )
+        assert result.score == 0
+
+        result = Result(
+            frame_id=1,
+            score=100
+        )
+        assert result.score == 100

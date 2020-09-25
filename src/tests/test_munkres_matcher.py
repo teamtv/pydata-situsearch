@@ -15,7 +15,7 @@ class TestMunkresMatcher:
         )
 
         frame2 = Frame(
-            frame_id=0,
+            frame_id=1,
             timestamp=10,
             home_player_coordinates=[],
             away_player_coordinates=[],
@@ -25,8 +25,10 @@ class TestMunkresMatcher:
             )
         )
 
-        munkres_matcher = MunkresMatcher()
-        score = munkres_matcher.match(frame1, frame2)
+        munkres_matcher = MunkresMatcher(
+            reference_frame=frame1
+        )
+        score = munkres_matcher.match(frame2)
         assert score == 100
 
         frame3 = Frame(
@@ -40,7 +42,7 @@ class TestMunkresMatcher:
             )
         )
 
-        score = munkres_matcher.match(frame1, frame3)
+        score = munkres_matcher.match(frame3)
         assert score == 99
 
         frame4 = Frame(
@@ -54,6 +56,6 @@ class TestMunkresMatcher:
             )
         )
 
-        score = munkres_matcher.match(frame1, frame4)
+        score = munkres_matcher.match(frame4)
         assert score == 50
 

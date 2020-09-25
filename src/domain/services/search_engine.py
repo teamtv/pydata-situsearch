@@ -1,34 +1,26 @@
 from domain.models import Frame, TrackingDataset, ResultSet, Result
 
-from .matchers import FrameMatcher
+from .matchers import Matcher
 
 
 class SearchEngine:
-    def __init__(self, matcher: FrameMatcher):
-        self.matcher = matcher
-
+    @classmethod
     def search(self,
-               query_frame: Frame,
                dataset: TrackingDataset,
+               matcher: Matcher,
                max_results: int = 100,
                min_score: float = 50) -> ResultSet:
 
         results = []
-        for frame_to_score in dataset.frames:
-            if frame_to_score == query_frame:
-                continue
-
-            score = self.matcher.match(
-                query_frame,
-                frame_to_score
-            )
+        for frame in dataset.frames:
+            score = matcher.match(frame)
 
             if score < min_score:
                 continue
 
             results.append(
                 Result(
-                    frame_id=frame_to_score.frame_id,
+                    frame_id=frame.frame_id,
                     score=score
                 )
             )

@@ -3,7 +3,7 @@ import math
 from scipy.spatial import distance
 from munkres import munkres
 
-from .base import FrameMatcher
+from .base import ReferenceMatcher
 from ... import Frame
 
 
@@ -14,23 +14,23 @@ def calculate_distance(X, Y):
     return cost[munkres(cost)].sum()
 
 
-class MunkresMatcher(FrameMatcher):
-    def match(self, frame1: Frame, frame2: Frame) -> int:
+class MunkresMatcher(ReferenceMatcher):
+    def match_frame(self, frame: Frame) -> int:
         ball_distance = math.sqrt(
-            (frame1.ball_coordinates.x - frame2.ball_coordinates.x) ** 2 +
-            (frame1.ball_coordinates.y - frame2.ball_coordinates.y) ** 2
+            (frame.ball_coordinates.x - self.reference_frame.ball_coordinates.x) ** 2 +
+            (frame.ball_coordinates.y - self.reference_frame.ball_coordinates.y) ** 2
         )
 
         home_players_distance = calculate_distance(
             [
                 (player_coordinates.x, player_coordinates.y)
                 for player_coordinates
-                in frame1.home_player_coordinates
+                in frame.home_player_coordinates
             ],
             [
                 (player_coordinates.x, player_coordinates.y)
                 for player_coordinates
-                in frame1.home_player_coordinates
+                in self.reference_frame.home_player_coordinates
             ],
         )
 
@@ -38,12 +38,12 @@ class MunkresMatcher(FrameMatcher):
             [
                 (player_coordinates.x, player_coordinates.y)
                 for player_coordinates
-                in frame1.away_player_coordinates
+                in frame.away_player_coordinates
             ],
             [
                 (player_coordinates.x, player_coordinates.y)
                 for player_coordinates
-                in frame1.away_player_coordinates
+                in self.reference_frame.away_player_coordinates
             ],
         )
 

@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Dict, List
+from typing import List
 
 
 @dataclass(frozen=True)
@@ -19,7 +19,15 @@ class Frame:
 
 @dataclass(frozen=True)
 class TrackingDataset:
+    dataset_id: str
     frames: List[Frame]
+
+    def get_frame_by_id(self, frame_id) -> Frame:
+        for frame in self.frames:
+            if frame.frame_id == frame_id:
+                return frame
+        else:
+            raise IndexError(f"Frame with id {frame_id} not found")
 
 
 __all__ = [

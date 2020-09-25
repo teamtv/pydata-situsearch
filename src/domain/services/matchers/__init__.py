@@ -1,2 +1,2 @@
-from .base import FrameMatcher
+from .base import Matcher, ReferenceMatcher
 from .munkres import MunkresMatcher
