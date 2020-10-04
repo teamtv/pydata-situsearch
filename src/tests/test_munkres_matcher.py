@@ -6,8 +6,8 @@ class TestMunkresMatcher:
         frame1 = Frame(
             frame_id=0,
             timestamp=10,
-            home_player_coordinates=[],
-            away_player_coordinates=[],
+            home_player_coordinates={},
+            away_player_coordinates={},
             ball_coordinates=Point(
                 x=0,
                 y=0
@@ -17,8 +17,8 @@ class TestMunkresMatcher:
         frame2 = Frame(
             frame_id=1,
             timestamp=10,
-            home_player_coordinates=[],
-            away_player_coordinates=[],
+            home_player_coordinates={},
+            away_player_coordinates={},
             ball_coordinates=Point(
                 x=0,
                 y=0
@@ -34,8 +34,8 @@ class TestMunkresMatcher:
         frame3 = Frame(
             frame_id=0,
             timestamp=10,
-            home_player_coordinates=[],
-            away_player_coordinates=[],
+            home_player_coordinates={},
+            away_player_coordinates={},
             ball_coordinates=Point(
                 x=0,
                 y=1
@@ -48,8 +48,8 @@ class TestMunkresMatcher:
         frame4 = Frame(
             frame_id=0,
             timestamp=10,
-            home_player_coordinates=[],
-            away_player_coordinates=[],
+            home_player_coordinates={},
+            away_player_coordinates={},
             ball_coordinates=Point(
                 x=0,
                 y=10

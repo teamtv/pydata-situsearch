@@ -11,8 +11,8 @@ class TestSearchEngine:
             frame_id=0,
             timestamp=0,
             ball_coordinates=Point(x=0, y=0),
-            home_player_coordinates=[],
-            away_player_coordinates=[]
+            home_player_coordinates={},
+            away_player_coordinates={}
         )
 
         dataset = TrackingDataset(
@@ -32,8 +32,8 @@ class TestSearchEngine:
             frame_id=0,
             timestamp=0,
             ball_coordinates=Point(x=0, y=0),
-            home_player_coordinates=[],
-            away_player_coordinates=[]
+            home_player_coordinates={},
+            away_player_coordinates={}
         )
 
         dataset = TrackingDataset(
@@ -53,8 +53,8 @@ class TestSearchEngine:
             frame_id=0,
             timestamp=0,
             ball_coordinates=Point(x=0, y=0),
-            home_player_coordinates=[],
-            away_player_coordinates=[]
+            home_player_coordinates={},
+            away_player_coordinates={}
         )
 
         dataset = TrackingDataset(
@@ -79,8 +79,8 @@ class TestSearchEngine:
             frame_id=0,
             timestamp=0,
             ball_coordinates=Point(x=0, y=0),
-            home_player_coordinates=[],
-            away_player_coordinates=[]
+            home_player_coordinates={},
+            away_player_coordinates={}
         )
 
         dataset = TrackingDataset(

@@ -1,11 +1,13 @@
 from dataclasses import dataclass
 from typing import List
 
+from .tracking import Frame
+
 
 @dataclass(frozen=True)
 class Result:
-    frame_id: int
-    score: int  # between 0 and 100
+    frame: Frame
+    score: float  # between 0 and 100
 
     def __post_init__(self):
         if self.score < 0 or self.score > 100:

@@ -1,4 +1,4 @@
-from domain.models import Frame, TrackingDataset, ResultSet, Result
+from domain.models import TrackingDataset, ResultSet, Result
 
 from .matchers import Matcher
 
@@ -20,7 +20,7 @@ class SearchEngine:
 
             results.append(
                 Result(
-                    frame_id=frame.frame_id,
+                    frame=frame,
                     score=score
                 )
             )

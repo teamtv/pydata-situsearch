@@ -28,6 +28,7 @@ class TestMetricaParser:
         parser = MetricaParser()
         dataset = parser.parse(
             SAMPLE_HOME, SAMPLE_AWAY,
+            sample_rate=1,
             dataset_id="test"
         )
 

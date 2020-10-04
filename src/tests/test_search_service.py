@@ -44,8 +44,8 @@ class TestSearchService:
                         frame_id=1,
                         timestamp=0,
                         ball_coordinates=Point(x=0, y=0),
-                        home_player_coordinates=[],
-                        away_player_coordinates=[]
+                        home_player_coordinates={},
+                        away_player_coordinates={}
                     )
                 ]
             )
@@ -68,15 +68,15 @@ class TestSearchService:
                         frame_id=1,
                         timestamp=0,
                         ball_coordinates=Point(x=0, y=0),
-                        home_player_coordinates=[],
-                        away_player_coordinates=[]
+                        home_player_coordinates={},
+                        away_player_coordinates={}
                     ),
                     Frame(
                         frame_id=2,
                         timestamp=0.1,
                         ball_coordinates=Point(x=1, y=0),
-                        home_player_coordinates=[],
-                        away_player_coordinates=[]
+                        home_player_coordinates={},
+                        away_player_coordinates={}
                     )
                 ]
             )

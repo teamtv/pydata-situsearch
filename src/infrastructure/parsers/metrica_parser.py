@@ -9,7 +9,7 @@ class MetricaParser(Parser):
     def _create_point(x: str, y: str) -> Point:
         return Point(x=float(x) * 105, y=float(y) * 68)
 
-    def parse(self, home_data: str, away_data: str, **kwargs) -> TrackingDataset:
+    def parse(self, home_data: str, away_data: str, sample_rate=1/25, **kwargs) -> TrackingDataset:
         frames = []
 
         home_jersey_numbers = []
@@ -33,6 +33,12 @@ class MetricaParser(Parser):
             if home_ball_x != away_ball_x or home_ball_y != away_ball_y:
                 raise Exception(f"Input file mismatch (ball): ({home_ball_x}, {home_ball_y}) != ({away_ball_x}, {away_ball_y})")
 
+            if (line_idx - 3) % (1 / sample_rate) != 0:
+                continue
+
+            if home_ball_x == 'NaN' or away_ball_y == 'NaN':
+                continue
+
             frame = Frame(
                 frame_id=int(home_frame_id),
                 timestamp=float(home_time),
@@ -54,7 +60,6 @@ class MetricaParser(Parser):
                 },
                 ball_coordinates=self._create_point(home_ball_x, away_ball_y)
             )
-
             frames.append(frame)
 
         return TrackingDataset(
