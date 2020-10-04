@@ -16,15 +16,17 @@ def timeit(description: str):
 
 if __name__ == "__main__":
     parser = MetricaParser()
-    data_dir = os.path.join(os.path.dirname(__file__), "../data")
+    data_dir = os.path.join(os.path.dirname(__file__), "../data/raw")
     with open(os.path.join(data_dir, "sample1_home.csv"), "r") as home, \
             open(os.path.join(data_dir, "sample1_away.csv"), "r") as away:
         with timeit("parse"):
-            dataset = parser.parse(home.read(), away.read(), dataset_id="test")
+            dataset = parser.parse(home.read(), away.read(), dataset_id="test", sample_rate=1./12)
 
     # repository = S3Repository("teamtv-pydata-demo")
 
-    repository = LocalRepository("./")
+    repository = LocalRepository("../data/processed")
+    repository.save(dataset)
+    exit()
     # repository.save(dataset)
 
     search_service = SearchService(

@@ -1,0 +1,4 @@
+$BUILD_DIR/.heroku/python/bin/python -m pip install cython
+$BUILD_DIR/.heroku/python/bin/python -m pip install -e git+https://github.com/koenvo/cython-munkres-wrapper@38588d619373cfc7487dc92f323e46608550df2c#egg=munkres
+
+

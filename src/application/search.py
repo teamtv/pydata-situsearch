@@ -1,8 +1,7 @@
 from typing import Type
 
-from domain import SearchEngine, Repository, ResultSet, MunkresMatcher, Matcher, ReferenceMatcher, Frame
-
-from infrastructure import LocalRepository
+from domain import SearchEngine, Repository, ResultSet, Matcher, ReferenceMatcher, Frame
+from utils import timeit
 
 
 class SearchService:
@@ -18,22 +17,17 @@ class SearchService:
     def search_by_frame(self, dataset_id: str, reference_frame_id: int, **kwargs) -> ResultSet:
         dataset = self.repository.load(dataset_id)
         reference_frame = dataset.get_frame_by_id(reference_frame_id)
-        return SearchEngine.search(
-            dataset,
-            matcher=self.get_frame_matcher(reference_frame),
-            **kwargs
-        )
+
+        with timeit(f"search {len(dataset.frames)} items"):
+            return SearchEngine.search(
+                dataset,
+                matcher=self.get_frame_matcher(reference_frame),
+                **kwargs
+            )
 
     def search_by_matcher(self, dataset_id, matcher: Matcher) -> ResultSet:
         dataset = self.repository.load(dataset_id)
         return SearchEngine.search(
             dataset,
             matcher=matcher
-        )
-
-    @classmethod
-    def build(cls, **repository_kwargs):
-        return cls(
-            matcher_cls=MunkresMatcher,
-            repository=LocalRepository(**repository_kwargs)
         )
