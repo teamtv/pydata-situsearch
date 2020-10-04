@@ -1,7 +1,7 @@
 import pytest
 
 from application import SearchService
-from domain import Repository, TrackingDataset, SearchEngine, MunkresMatcher, Frame, Point, Result
+from domain import Repository, TrackingDataset, MunkresMatcher, Frame, Point, Result
 
 
 class MemoryRepository(Repository):
@@ -16,10 +16,10 @@ class MemoryRepository(Repository):
 
 
 class TestSearchService:
-    def _init_search_service(self):
+    def _init_search_service(self, repository=None):
         return SearchService(
             matcher_cls=MunkresMatcher,
-            repository=MemoryRepository()
+            repository=repository if repository else MemoryRepository()
         )
 
     def test_unknown_frame(self):
@@ -35,8 +35,8 @@ class TestSearchService:
             search_service.search_by_frame("test", 1)
 
     def test_same_frame(self):
-        search_service = self._init_search_service()
-        search_service.repository.save(
+        repository = MemoryRepository()
+        repository.save(
             TrackingDataset(
                 dataset_id="test",
                 frames=[
@@ -49,6 +49,10 @@ class TestSearchService:
                     )
                 ]
             )
+        )
+
+        search_service = self._init_search_service(
+            repository=repository
         )
 
         resultset = search_service.search_by_frame("test", 1)

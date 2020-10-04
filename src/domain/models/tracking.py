@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import List
+from typing import List, Dict
 
 
 @dataclass(frozen=True)
@@ -12,8 +12,8 @@ class Point:
 class Frame:
     frame_id: int
     timestamp: float
-    home_player_coordinates: List[Point]
-    away_player_coordinates: List[Point]
+    home_player_coordinates: Dict[int, Point]
+    away_player_coordinates: Dict[int, Point]
     ball_coordinates: Point
 
 

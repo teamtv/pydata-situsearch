@@ -13,7 +13,6 @@ class SearchService:
     def get_frame_matcher(self, reference_frame: Frame) -> ReferenceMatcher:
         if not issubclass(self.matcher_cls, ReferenceMatcher):
             raise Exception("Provided match is not a reference matcher")
-
         return self.matcher_cls(reference_frame)
 
     def search_by_frame(self, dataset_id: str, reference_frame_id: int) -> ResultSet:
