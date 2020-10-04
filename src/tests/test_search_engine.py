@@ -100,7 +100,8 @@ class TestSearchEngine:
 
         resultset = SearchEngine.search(
             dataset,
-            matcher=MunkresMatcher(query_frame)
+            matcher=MunkresMatcher(query_frame),
+            min_score=90
         )
 
         assert resultset.results == [Result(frame_id=3, score=100)]

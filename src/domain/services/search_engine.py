@@ -20,7 +20,7 @@ class SearchEngine:
 
             results.append(
                 Result(
-                    frame=frame,
+                    frame_id=frame.frame_id,
                     score=score
                 )
             )

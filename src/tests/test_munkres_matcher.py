@@ -43,7 +43,7 @@ class TestMunkresMatcher:
         )
 
         score = munkres_matcher.match(frame3)
-        assert score == 99
+        assert score == 99.5
 
         frame4 = Frame(
             frame_id=0,
@@ -57,5 +57,5 @@ class TestMunkresMatcher:
         )
 
         score = munkres_matcher.match(frame4)
-        assert score == 50
+        assert score == 94.35614381022528
 

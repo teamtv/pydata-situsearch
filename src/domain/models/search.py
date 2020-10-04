@@ -1,12 +1,10 @@
 from dataclasses import dataclass
 from typing import List
 
-from .tracking import Frame
-
 
 @dataclass(frozen=True)
 class Result:
-    frame: Frame
+    frame_id: int
     score: float  # between 0 and 100
 
     def __post_init__(self):

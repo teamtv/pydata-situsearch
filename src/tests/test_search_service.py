@@ -83,4 +83,4 @@ class TestSearchService:
         )
 
         resultset = search_service.search_by_frame("test", 1)
-        assert resultset.results == [Result(frame_id=2, score=99)]
+        assert resultset.results == [Result(frame_id=2, score=99.5)]

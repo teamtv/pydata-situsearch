@@ -47,7 +47,9 @@ class MunkresMatcher(ReferenceMatcher):
             ],
         )
 
+        frame_distance = ball_distance ** 2 / 2 + home_players_distance + away_players_distance
+
         return max(
             0,
-            100 - math.log2(ball_distance ** 2 / 2 + home_players_distance + away_players_distance)
+            100 - (math.log2(frame_distance) if frame_distance > 1 else frame_distance)
         )
