@@ -1,6 +1,7 @@
 import os
 
 if 'DYNO' in os.environ:
+    print("Add to path")
     os.environ['PYTHONPATH'] = f'{os.path.dirname(__file__)}/build'
 
 
