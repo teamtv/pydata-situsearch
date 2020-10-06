@@ -33,5 +33,5 @@ class TestMetricaParser:
         )
 
         assert len(dataset.frames) == 6
-        assert len(dataset.frames[0].home_player_coordinates) == 11
-        assert len(dataset.frames[0].away_player_coordinates) == 11
+        assert len(dataset.frames[0].home_players_coordinates) == 11
+        assert len(dataset.frames[0].away_players_coordinates) == 11

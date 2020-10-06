@@ -25,12 +25,12 @@ class MunkresMatcher(ReferenceMatcher):
             [
                 (player_coordinates.x, player_coordinates.y)
                 for player_coordinates
-                in frame.home_player_coordinates.values()
+                in frame.home_players_coordinates.values()
             ],
             [
                 (player_coordinates.x, player_coordinates.y)
                 for player_coordinates
-                in self.reference_frame.home_player_coordinates.values()
+                in self.reference_frame.home_players_coordinates.values()
             ],
         )
 
@@ -38,12 +38,12 @@ class MunkresMatcher(ReferenceMatcher):
             [
                 (player_coordinates.x, player_coordinates.y)
                 for player_coordinates
-                in frame.away_player_coordinates.values()
+                in frame.away_players_coordinates.values()
             ],
             [
                 (player_coordinates.x, player_coordinates.y)
                 for player_coordinates
-                in self.reference_frame.away_player_coordinates.values()
+                in self.reference_frame.away_players_coordinates.values()
             ],
         )
 

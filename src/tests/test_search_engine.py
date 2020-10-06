@@ -11,8 +11,8 @@ class TestSearchEngine:
             frame_id=0,
             timestamp=0,
             ball_coordinates=Point(x=0, y=0),
-            home_player_coordinates={},
-            away_player_coordinates={}
+            home_players_coordinates={},
+            away_players_coordinates={}
         )
 
         dataset = TrackingDataset(
@@ -32,8 +32,8 @@ class TestSearchEngine:
             frame_id=0,
             timestamp=0,
             ball_coordinates=Point(x=0, y=0),
-            home_player_coordinates={},
-            away_player_coordinates={}
+            home_players_coordinates={},
+            away_players_coordinates={}
         )
 
         dataset = TrackingDataset(
@@ -53,8 +53,8 @@ class TestSearchEngine:
             frame_id=0,
             timestamp=0,
             ball_coordinates=Point(x=0, y=0),
-            home_player_coordinates={},
-            away_player_coordinates={}
+            home_players_coordinates={},
+            away_players_coordinates={}
         )
 
         dataset = TrackingDataset(
@@ -79,17 +79,18 @@ class TestSearchEngine:
             frame_id=0,
             timestamp=0,
             ball_coordinates=Point(x=0, y=0),
-            home_player_coordinates={},
-            away_player_coordinates={}
+            home_players_coordinates={},
+            away_players_coordinates={}
         )
 
         dataset = TrackingDataset(
             dataset_id="test",
             frames=[
+                # this frame will score less than 90
                 replace(
                     query_frame,
                     frame_id=1,
-                    ball_coordinates=Point(x=0, y=100)
+                    ball_coordinates=Point(x=0, y=68)
                 ),
                 replace(
                     query_frame,
@@ -105,28 +106,3 @@ class TestSearchEngine:
         )
 
         assert resultset.results == [Result(frame_id=3, score=100)]
-
-    def test_result_score(self):
-        with pytest.raises(ValueError):
-            score = Result(
-                frame_id=1,
-                score=-1
-            )
-
-        with pytest.raises(ValueError):
-            score = Result(
-                frame_id=1,
-                score=101
-            )
-
-        result = Result(
-            frame_id=1,
-            score=0
-        )
-        assert result.score == 0
-
-        result = Result(
-            frame_id=1,
-            score=100
-        )
-        assert result.score == 100

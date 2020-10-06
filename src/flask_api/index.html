@@ -1,0 +1,314 @@
+<html>
+<head>
+    <script crossorigin src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.21.1/babel.min.js"></script>
+</head>
+<style>
+body{background-color:#f9f9f9;font-family:Helvetica,serif}.App{width:80%;max-width:840px;margin:auto}.controls{display:flex;width:100%;justify-content:space-between;font-size:smaller}.controls .control{display:flex;align-items:center;justify-content:center;max-width:19%;min-width:12%;height:80px}.controls .control .buttons,.controls .control .content{padding:10px}.controls .control .content{width:100%;text-align:center;padding-left:10px;padding-right:10px}.controls .control .buttons{display:flex;height:100%;flex-direction:column;justify-content:space-around}.controls .control .buttons button{cursor:pointer;display:block;background-color:#1ba3fc;border:0;padding:8px 12px;font-weight:700;font-size:14px;border-radius:5px;color:#fff}.controls .control .buttons button.reversed{background-color:#fff;border:1px solid #1ba3fc;color:#1ba3fc}.controls .control .buttons button:disabled{background-color:#ccc;border:0;color:#fff;pointer-events:none}.metric{display:flex;justify-content:space-between;flex-direction:column}.metric.label-second{flex-direction:column-reverse}.metric .value{font-weight:bolder;font-size:24px}.results{margin:auto}.results .result{width:25%;float:left}.results .result svg{margin:5px}.results:after{clear:both}svg.soccerfield .background{fill:#f9f9f9}svg.soccerfield .linemarking{stroke:#5c5d58}svg.soccerfield .attacking{stroke:#f04229;fill:#f04229}svg.soccerfield .defending{stroke:#0da073;fill:#0da073}svg.soccerfield .ball{stroke:#09140f;fill:#09140f}svg.soccerfield .label{fill:#000}.attacking-label{color:#f04229;font-weight:700}.defending-label{color:#0da073;font-weight:700}.header{width:100%;height:100px;display:flex;flex-direction:row;justify-content:space-between;align-items:center}.header .branding{width:200px}.header .menu{display:flex;flex-direction:row;justify-content:space-between}.header .menu a{line-height:1;margin-left:20px;color:#000;text-decoration:none}.header .menu a.active{font-weight:700}.description .subtitle,.description .title{text-align:center;margin:0}.description .subtitle{font-weight:400;margin-bottom:50px}.description .blocks{display:flex;flex-direction:row;justify-content:space-around}.description .blocks .block:first-child{width:40%}.description .blocks .block:not(:first-child){width:50%}
+</style>
+<body>
+    <div id="root"></div>
+
+<script type="text/babel">
+const callApi = async (url) => {
+  const response = await fetch(
+    url
+  );
+  return await response.json();
+};
+
+
+const formatTime = time => {
+  const seconds = Math.floor(parseFloat(time)).toFixed(0);
+  let s = seconds % 60;
+  let m = (seconds - s) / 60;
+  //let h = parseInt(seconds / 3600);
+  //h += ""; if (h.length == 1) h = "0" + h;
+  m += '';
+  if (m.length === 1) m = '0' + m;
+  s += '';
+  if (s.length === 1) s = '0' + s;
+  return `${m}:${s}`;
+};
+
+
+const SoccerField = ({frame, score=null, timestamp=null, circleSize=5}) => {
+  const ballPosition= frame.ball_position;
+
+  return (
+  <svg viewBox="0 0 1150 720" stroke="white" version="1.1"
+       xmlns="http://www.w3.org/2000/svg" className="soccerfield">
+    <rect x="0" y="0" width="1150" height="720" className="background" />
+    <path d="M 575,20 L 50,20 50,700 1100,700 1100,20 575,20 575,700 z" strokeWidth="2" className="background linemarking" />
+    <circle cx="575" cy="360" r="91.5" className="linemarking" strokeWidth="2" fillOpacity="0" />
+    <circle cx="575" cy="360" r="2" className="linemarking" />
+    <circle cx="160" cy="360" r="2" className="linemarking" />
+    <circle cx="990" cy="360" r="2" className="linemarking" />
+    <path d="M 50,324.4 L 40,324.4 40, 396.6 50 396.6 z" className="linemarking" strokeWidth="2" fillOpacity="0" />
+    <path d="M 1100,324.4 L 1110,324.4 1110,396.6 1100,396.6 z" className="linemarking" strokeWidth="2" fillOpacity="0" />
+    <path d="M 50,269.4 L 105,269.4 105,451.6 50 451.6 z" className="linemarking" strokeWidth="2" fillOpacity="0" />
+    <path d="M 1100,269.4 L 1045,269.4 1045,451.6 1100,451.6 z" className="linemarking" strokeWidth="2" fillOpacity="0" />
+    <path d="M 50,159.4 L 215,159.4 215,561.6 50 561.6 z" className="linemarking" strokeWidth="2" fillOpacity="0" />
+    <path d="M 1100,159.4 L 935,159.4 935,561.6 1100,561.6 z" className="linemarking" strokeWidth="2" fillOpacity="0" />
+    <path d="M 215,286.875 A 91.5,91.5 0 0,1 215,433.125 z" strokeWidth="2" className="background linemarking" />
+    <path d="M 935,286.875 A 91.5,91.5 0 0,0 935,433.125 z" strokeWidth="2" className="background linemarking" />
+    <path d="M 50,30 A 10,10 0 0,0 60,20 L 50,20 z" className="linemarking" strokeWidth="2" fillOpacity="0" />
+    <path d="M 60,700 A 10,10 0 0,0 50,690 L 50,700 z" className="linemarking" strokeWidth="2" fillOpacity="0" />
+    <path d="M 1100,690 A 10,10 0 0,0 1090,700 L 1100,700 z" className="linemarking" strokeWidth="2" fillOpacity="0" />
+    <path d="M 1090,20 A 10,10 0 0,0 1100,30 L 1100,20 z" className="linemarking" strokeWidth="2" fillOpacity="0" />
+
+    {frame.home.map(({x, y}, n) => {
+      return (
+        <circle key={n} cx={parseInt(x / 105 * 1150)} cy={parseInt(y / 68 * 720)} r={circleSize} className="attacking" />
+      );
+    })}
+
+    {frame.away.map(({x, y}, n) => {
+      return (
+        <circle key={n} cx={parseInt(x / 105 * 1150)} cy={parseInt(y / 68 * 720)} r={circleSize} className="defending" />
+      );
+    })}
+
+    <circle cx={parseInt(ballPosition.x / 105 * 1150)} cy={parseInt(ballPosition.y / 68 * 720)} r={circleSize} className="ball" />
+
+
+    {score !== null && (
+      <text textAnchor="middle" x="575" y="380">
+        <tspan
+          fontFamily="Avenir-Book, Avenir"
+          fontSize="120"
+          fontWeight="500"
+          className="label"
+        >
+          {score}
+        </tspan>
+      </text>)}
+
+    {timestamp !== null && (
+      <text textAnchor="middle" x="575" y="460">
+        <tspan
+          fontFamily="Avenir-Book, Avenir"
+          fontSize="80"
+          fontWeight="500"
+          className="label"
+        >
+          {timestamp}
+        </tspan>
+      </text>)}
+  </svg>
+  );
+};
+
+const useSearch = (datasetId) => {
+  const [results, setResults] = React.useState(null);
+  const [frameId, setFrameId] = React.useState(null);
+
+
+  React.useEffect(() => {
+    const fetchResults = async () => {
+      const json = await callApi(`datasets/${datasetId}/search/${frameId}`);
+      const results = json.filter((result, n) => {
+          for (const result_ of json.slice(0, n)) {
+            if (Math.abs(result_.frame_id - result.frame_id) < 30) {
+              return false;
+            }
+          }
+          return true;
+        })
+      setResults(results);
+    };
+    if (frameId !== null) {
+      setResults(null);
+      fetchResults();
+    }
+  }, [datasetId, frameId]);
+
+  return [results, frameId, setFrameId];
+};
+
+const PlaceHolder = ({children}) => (
+  <div style={{height: "200px", width: "100%", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center"}}>
+    <div>
+      {children}
+    </div>
+  </div>
+);
+
+const Results = ({results, frames}) => {
+  if (results === false) {
+    return (
+      <PlaceHolder>
+          Hit 'find situations'!
+      </PlaceHolder>
+    );
+  } else if (results === null) {
+    return (
+      <PlaceHolder>
+        Loading...
+      </PlaceHolder>
+    );
+  }
+  return (
+    <div className="results">
+      {results.map(({frame_id, score}) => {
+          let frame = null;
+          for(let i = 0; i < frames.length; i++) {
+            if (frames[i].frame_id == frame_id) {
+                frame = frames[i];
+                break;
+            }
+          }
+
+          if (frame === null) {
+           return null;
+          }
+
+          const timestamp = formatTime(frame.timestamp);
+          return (
+            <div key={frame_id} className="result">
+              <SoccerField
+                frame={frame}
+                score={`${score.toFixed(0)}%`}
+                timestamp={timestamp}
+                circleSize="10"
+              />
+            </div>
+          )
+        })}
+    </div>
+  )
+};
+
+
+const Metric = ({label, value, labelSecond=true}) => {
+  return (
+    <div className={`metric ${labelSecond ? 'label-second' : ''}`}>
+      <div className="label">{label}</div>
+      <div className="value">{value}</div>
+    </div>
+  );
+};
+
+
+const Controls = ({onSearch, resultCount,
+                    similarQueryFrameId,
+                    onSetCurrentFrameId, currentTime, currentFrame, frames,
+                    onExport}) => {
+
+
+
+  return (
+    <div className="controls">
+      <div className="control">
+        <div className="content">
+          <Metric label="match time" value={currentTime} labelSecond={false} />
+          <input type="range"
+                 min="0"
+                 max={frames.length}
+                 step="1"
+                 value={frames.indexOf(currentFrame)}
+                 onKeyDown={(e) => e.preventDefault()}
+                 onChange={(e) => onSetCurrentFrameId(frames[parseInt(e.target.value)].frame_id)}
+                 style={{width: "100%"}}
+          />
+        </div>
+      </div>s
+      <div className="control">
+        <div className="buttons">
+          <button disabled={similarQueryFrameId === currentFrame.frame_id} onClick={onSearch}>find<br />situations</button>
+        </div>
+        <div className="content">
+          <Metric label="situations" value={resultCount !== null ? resultCount : "n/a"} />
+        </div>
+      </div>
+    </div>
+  )
+};
+
+const Renderer = ({frames, datasetId}) => {
+  const [currentFrameId, setCurrentFrameId] = React.useState(1);
+
+  const [results, similarQueryFrameId, setSimilarQueryFrameId] = useSearch(datasetId);
+
+  let currentFrame = null;
+  for(let i = 0; i < frames.length; i++) {
+    if (frames[i].frame_id == currentFrameId) {
+      currentFrame = frames[i];
+      break;
+    }
+  }
+  if (currentFrame === null) {
+    alert(`frame not found: ${currentFrameId}`);
+    return null;
+  }
+  const currentTime = formatTime(currentFrame.timestamp);
+
+  return (
+    <div style={{width: "100%"}}>
+      <SoccerField
+        frame={currentFrame}
+      />
+      <Controls
+        currentTime={currentTime}
+        currentFrame={currentFrame}
+        frames={frames}
+
+        similarQueryFrameId={similarQueryFrameId}
+        resultCount={results === null ? null : results.length}
+
+        onSetCurrentFrameId={(frameId) => setCurrentFrameId(frameId)}
+        onSearch={() => setSimilarQueryFrameId(currentFrameId)}
+      />
+
+      <Results
+        results={results || []}
+        frames={frames}
+        />
+    </div>
+  );
+};
+
+const SituSearch = ({datasetId}) => {
+  const [frames, setFrames] = React.useState(null);
+  const [dataState, setDataState] = React.useState("loading");
+
+  React.useEffect(() => {
+    (async () => {
+      try {
+        const json = await callApi(`datasets/${datasetId}/frames`);
+        setFrames(json);
+        setDataState("loaded")
+      } catch (e) {
+      debugger;
+        setDataState("error");
+      }
+    })();
+  }, [datasetId]);
+
+  if (dataState === "loading") {
+    return <div>Loading...</div>;
+  } else if (dataState === "error") {
+    return <div>Error...</div>;
+  }
+
+  return (
+    <Renderer frames={frames} datasetId={datasetId} />
+  );
+};
+
+const App = () => {
+  return (
+    <div className="App">
+      {/*<Header />*/}
+      <SituSearch datasetId="test" />
+    </div>
+  );
+};
+ReactDOM.render(
+    <App />,
+    document.getElementById('root')
+);
+</script>
+</body>
+</html>

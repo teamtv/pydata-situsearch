@@ -42,7 +42,7 @@ class MetricaParser(Parser):
             frame = Frame(
                 frame_id=int(home_frame_id),
                 timestamp=float(home_time),
-                home_player_coordinates={
+                home_players_coordinates={
                     home_jersey_numbers[int(i / 2)]: self._create_point(
                         home_players[i],
                         home_players[i + 1]
@@ -50,7 +50,7 @@ class MetricaParser(Parser):
                     for i in range(0, len(home_players), 2)
                     if home_players[i] != 'NaN'
                 },
-                away_player_coordinates={
+                away_players_coordinates={
                     away_jersey_numbers[int(i / 2)]: self._create_point(
                         away_players[i],
                         away_players[i + 1]

@@ -9,10 +9,10 @@ plt.style.use('ggplot')
 
 def draw_frame(frame: Frame):
     home_x, home_y = zip(*[
-        (point.x, point.y) for point in frame.home_player_coordinates.values()
+        (point.x, point.y) for point in frame.home_players_coordinates.values()
     ])
     away_x, away_y = zip(*[
-        (point.x, point.y) for point in frame.away_player_coordinates.values()
+        (point.x, point.y) for point in frame.away_players_coordinates.values()
     ])
 
     pitch = Pitch(figsize=(10, 8), pitch_type="uefa")

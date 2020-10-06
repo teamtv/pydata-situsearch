@@ -2,18 +2,31 @@ from dataclasses import dataclass
 from typing import List, Dict
 
 
+MARGIN = 10
+
+
 @dataclass(frozen=True)
 class Point:
-    x: float
-    y: float
+    x: float  # in meters
+    y: float  # in meters
+
+    def __post_init__(self):
+        if self.x < -MARGIN or self.x > 105 + MARGIN:
+            raise ValueError("x must be between 0 and 105")
+
+        if self.y < -MARGIN or self.y > 68 + MARGIN:
+            raise ValueError("y must be between 0 and 68")
+
+
+JerseyNumber = int
 
 
 @dataclass(frozen=True)
 class Frame:
     frame_id: int
     timestamp: float
-    home_player_coordinates: Dict[int, Point]
-    away_player_coordinates: Dict[int, Point]
+    home_players_coordinates: Dict[JerseyNumber, Point]
+    away_players_coordinates: Dict[JerseyNumber, Point]
     ball_coordinates: Point
 
 
