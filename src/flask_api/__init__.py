@@ -1,6 +1,7 @@
 import os
 
-from flask import Flask, Response, jsonify, send_from_directory, send_file
+from flask import Flask, Response, jsonify, send_file
+from flask_compress import Compress
 
 from application import SearchService
 from domain import MunkresMatcher
@@ -15,6 +16,7 @@ search_service = SearchService(
 )
 
 app = Flask('flask_app')
+Compress(app)
 
 
 def register_routes(app):

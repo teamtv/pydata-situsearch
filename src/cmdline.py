@@ -20,11 +20,11 @@ if __name__ == "__main__":
     with open(os.path.join(data_dir, "sample1_home.csv"), "r") as home, \
             open(os.path.join(data_dir, "sample1_away.csv"), "r") as away:
         with timeit("parse"):
-            dataset = parser.parse(home.read(), away.read(), dataset_id="test", sample_rate=1./12)
+            dataset = parser.parse(home.read(), away.read(), dataset_id="test")
 
-    # repository = S3Repository("teamtv-pydata-demo")
+    repository = S3Repository("teamtv-pydata-demo")
 
-    repository = LocalRepository("../data/processed")
+    # repository = LocalRepository("../data/processed")
     repository.save(dataset)
     exit()
     # repository.save(dataset)
