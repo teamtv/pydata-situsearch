@@ -1,4 +1,5 @@
 import os, time
+import sys
 from contextlib import contextmanager
 
 from application import SearchService
@@ -15,29 +16,42 @@ def timeit(description: str):
 
 
 if __name__ == "__main__":
-    parser = MetricaParser()
-    data_dir = os.path.join(os.path.dirname(__file__), "../data/raw")
-    with open(os.path.join(data_dir, "sample1_home.csv"), "r") as home, \
-            open(os.path.join(data_dir, "sample1_away.csv"), "r") as away:
-        with timeit("parse"):
-            dataset = parser.parse(home.read(), away.read(), dataset_id="test")
+    local_repository = LocalRepository("../data/processed")
+    s3_repository = S3Repository("teamtv-pydata-demo")
 
-    repository = S3Repository("teamtv-pydata-demo")
+    _, command = sys.argv
+    if command == "fill-local-repository":
+        parser = MetricaParser()
+        data_dir = os.path.join(os.path.dirname(__file__), "../data/raw")
+        with open(os.path.join(data_dir, "sample1_home.csv"), "r") as home, \
+                open(os.path.join(data_dir, "sample1_away.csv"), "r") as away:
+            with timeit("parse"):
+                dataset = parser.parse(home.read(), away.read(), dataset_id="test")
 
-    # repository = LocalRepository("../data/processed")
-    repository.save(dataset)
+        local_repository.save(dataset)
+    elif command == "query-local-repository":
+        search_service = SearchService(
+            matcher_cls=MunkresMatcher,
+            repository=local_repository
+        )
+        with timeit("search"):
+            resultset = search_service.search_by_frame(
+                "test", 201,
+                min_score=0
+            )
+            print(f"Found {len(resultset.results)} results")
+    elif command == "fill-s3-repository":
+
     exit()
     # repository.save(dataset)
+
+
 
     search_service = SearchService(
         matcher_cls=MunkresMatcher,
         repository=repository
     )
 
-    with timeit("search"):
-        results = search_service.search_by_frame(
-            "test", 201,
-            min_score=0
-        )
+
 
     a = 1

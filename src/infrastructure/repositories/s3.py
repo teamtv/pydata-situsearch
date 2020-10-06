@@ -7,7 +7,7 @@ from domain import Repository, TrackingDataset
 class S3Repository(Repository):
     def __init__(self, bucket_name: str):
         self.s3client = boto3.client("s3")
-        self.bucket = boto3.resource("s3").Bucket(bucket_name)
+        self.bucket = boto3.resource("s3").Bucket(bucket_name, validate=False)
 
     def load(self, dataset_id: str) -> TrackingDataset:
         response = self.s3client.get_object(Bucket=self.bucket.name, Key=f"{dataset_id}.pickle")
