@@ -1,0 +1,1 @@
+web: gunicorn --chdir src api.flask_app.flask_app:app -b 0.0.0.0:$PORT
