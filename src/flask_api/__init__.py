@@ -1,5 +1,9 @@
 import os
 
+if 'DYNO' in os.environ:
+    os.environ['PYTHONPATH'] += f':{os.path.dirname(__file__)}/.build'
+
+
 from flask import Flask, Response, jsonify, send_file
 from flask_compress import Compress
 
