@@ -1,8 +1,8 @@
-import os
+import os, sys
 
 if 'DYNO' in os.environ:
     print("Add to path")
-    os.environ['PYTHONPATH'] = f'{os.path.dirname(__file__)}/build'
+    sys.path.append(f'{os.path.dirname(__file__)}/build')
 
 
 from flask import Flask, Response, jsonify, send_file
