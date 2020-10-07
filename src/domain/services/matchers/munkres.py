@@ -4,7 +4,7 @@ from scipy.spatial import distance
 from munkres import munkres
 
 from .base import ReferenceMatcher
-from ... import Frame
+from domain import Frame
 
 
 def calculate_distance(X, Y):

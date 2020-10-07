@@ -2,8 +2,6 @@ from domain.models import TrackingDataset, ResultSet, Result
 
 from .matchers import Matcher
 
-from multiprocessing import Pool
-
 
 class SearchEngine:
     @classmethod

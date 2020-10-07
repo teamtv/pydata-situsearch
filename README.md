@@ -50,8 +50,7 @@ python run_app.py
 
 
 ## Diving in the code
-
-Let's learn more about the code itself
+Learn more about the code itself
 
 ### 1. Domain models
 In favor of sharing knowledge about the domain between developers and domain experts, we create domain models. These models helps us to have a common language.
@@ -66,3 +65,6 @@ For the search domain there are two models:
 2. [Result](https://github.com/teamtv/pydata-situsearch/blob/master/src/domain/models/search.py#L6)
 
 ### 2. Domain services
+Next to the models there are domain services. These services provide the core of application.
+
+
