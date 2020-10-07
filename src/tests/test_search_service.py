@@ -1,6 +1,6 @@
 import pytest
 
-from application import SearchService
+from application import SearchApplicationService
 from domain import Repository, TrackingDataset, MunkresMatcher, Frame, Point, Result
 
 
@@ -15,9 +15,9 @@ class MemoryRepository(Repository):
         self.items[dataset.dataset_id] = dataset
 
 
-class TestSearchService:
+class TestSearchApplicationService:
     def _init_search_service(self, repository=None):
-        return SearchService(
+        return SearchApplicationService(
             matcher_cls=MunkresMatcher,
             repository=repository if repository else MemoryRepository()
         )

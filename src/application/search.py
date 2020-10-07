@@ -4,7 +4,7 @@ from domain import SearchEngine, Repository, ResultSet, Matcher, ReferenceMatche
 from utils import timeit
 
 
-class SearchService:
+class SearchApplicationService:
     def __init__(self, matcher_cls: Type[Matcher], repository: Repository):
         self.matcher_cls = matcher_cls
         self.repository = repository

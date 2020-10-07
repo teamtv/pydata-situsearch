@@ -1,1 +1,1 @@
-from .search import SearchService
+from .search import SearchApplicationService

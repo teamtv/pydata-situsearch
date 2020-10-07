@@ -67,4 +67,51 @@ For the search domain there are two models:
 ### 2. Domain services
 Next to the models there are domain services. These services provide the core of application.
 
+In the tracking domain we have some interfaces:
+1. [Matcher](https://github.com/teamtv/pydata-situsearch/blob/master/src/domain/services/matchers/base.py#L6)
+2. [ReferenceMatcher](https://github.com/teamtv/pydata-situsearch/blob/master/src/domain/services/matchers/base.py#L12)
+And one implementation: [MunkresMatcher](https://github.com/teamtv/pydata-situsearch/blob/master/src/domain/services/matchers/munkres.py#L17)
 
+The search domain contains one service: [SearchEngine](https://github.com/teamtv/pydata-situsearch/blob/master/src/domain/services/search_engine.py#L6)
+
+### 3. + 4. Application and Infrastructure layer
+To make it possible to interact with the outside world we need an application layer. This layer provides an easy way to use the domain layers.
+In this project we only have a [SearchApplicationService](https://github.com/teamtv/pydata-situsearch/blob/master/src/application/search.py#L7). 
+
+Next to the application layer there is the infrastructure layer. This layer makes it possible to connect to external systems like database or file systems.
+The infrastructure layer contains some more types of components.
+
+For parsing Metrica data we can use the [MetricaParser](https://github.com/teamtv/pydata-situsearch/blob/master/src/infrastructure/parsers/metrica_parser.py#L7)
+
+For converting a TrackingDataset to json (to send to the client) we can use the [DatasetToJson](https://github.com/teamtv/pydata-situsearch/blob/master/src/infrastructure/serializers/__init__.py#L6).
+
+There are two repositories in this project:
+1. [LocalRepository](https://github.com/teamtv/pydata-situsearch/blob/master/src/infrastructure/repositories/local.py#L7)
+2. [S3Repository](https://github.com/teamtv/pydata-situsearch/blob/master/src/infrastructure/repositories/s3.py#L7)
+Both implement the same [Repository](https://github.com/teamtv/pydata-situsearch/blob/master/src/domain/repository.py#L6) interface
+
+### 5. Add a flask api
+We would like to expose the frames of dataset, and the search results to the outside world. We use flask to do so.
+
+The flask app can be found [here](https://github.com/teamtv/pydata-situsearch/blob/master/src/flask_api/__init__.py)
+
+### 6. Deploy to heroku
+Make sure you have an heroku account. You can sign up for free [here](https://signup.heroku.com/)
+
+Install the [heroku toolbelt](https://devcenter.heroku.com/articles/heroku-cli) to use their CLI. [Read more](https://devcenter.heroku.com/articles/git) about how to link your local repository with their build platform.
+
+To deploy the application just do
+`git push heroku master`
+
+Checkout the logging:
+`heroku logs --tail`
+
+Validate you api is working:
+`curl https://pydata-situsearch.herokuapp.com/datasets/test/frames | less`
+
+Make sure you have configured your aws keys: `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`
+
+### 7. Add a React frontend
+Normally a React frontend requires a lot of building tools. For this project we decides to do use babel within the browser. This makes the deployment way easier. Keep in mind you should use a tool like [create-react-app](https://reactjs.org/docs/create-a-new-react-app.html) when you want to build a real application.
+
+The entire frontend can be [found here](https://github.com/teamtv/pydata-situsearch/blob/master/src/flask_api/index.html).

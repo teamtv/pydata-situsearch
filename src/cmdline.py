@@ -2,7 +2,7 @@ import os, time
 import sys
 from contextlib import contextmanager
 
-from application import SearchService
+from application import SearchApplicationService
 from domain import MunkresMatcher
 from infrastructure import MetricaParser, LocalRepository, S3Repository
 
@@ -30,7 +30,7 @@ if __name__ == "__main__":
         with timeit("write to local repository"):
             local_repository.save(dataset)
     elif command == "query-local-repository":
-        search_service = SearchService(
+        search_service = SearchApplicationService(
             matcher_cls=MunkresMatcher,
             repository=local_repository
         )
@@ -51,7 +51,7 @@ if __name__ == "__main__":
         with timeit("write to s3 repository"):
             s3_repository.save(dataset)
     elif command == "search-s3-repository":
-        search_service = SearchService(
+        search_service = SearchApplicationService(
             matcher_cls=MunkresMatcher,
             repository=s3_repository
         )
