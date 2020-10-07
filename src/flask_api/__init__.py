@@ -13,8 +13,8 @@ from domain import MunkresMatcher
 from infrastructure import S3Repository, LocalRepository
 from infrastructure.serializers import DataSetToJson
 
-repository = S3Repository("teamtv-pydata-demo")
-# repository = LocalRepository(os.path.dirname(__file__) + "/../../data/processed")
+#repository = S3Repository("teamtv-pydata-demo")
+repository = LocalRepository(os.path.dirname(__file__) + "/../../data/processed")
 search_service = SearchApplicationService(
     matcher_cls=MunkresMatcher,
     repository=repository

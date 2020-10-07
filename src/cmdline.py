@@ -26,9 +26,14 @@ if __name__ == "__main__":
         with open(os.path.join(data_dir, "sample1_home.csv"), "r") as home, \
                 open(os.path.join(data_dir, "sample1_away.csv"), "r") as away:
             with timeit("parse"):
+
                 dataset = parser.parse(home.read(), away.read(), dataset_id="test")
         with timeit("write to local repository"):
             local_repository.save(dataset)
+
+
+
+
     elif command == "query-local-repository":
         search_service = SearchApplicationService(
             matcher_cls=MunkresMatcher,
@@ -50,6 +55,9 @@ if __name__ == "__main__":
                 dataset = parser.parse(home.read(), away.read(), dataset_id="test")
         with timeit("write to s3 repository"):
             s3_repository.save(dataset)
+
+
+
     elif command == "search-s3-repository":
         search_service = SearchApplicationService(
             matcher_cls=MunkresMatcher,

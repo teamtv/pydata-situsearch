@@ -1,3 +1,4 @@
+from .functions import density_me_pockets, get_frames_from_tracking, keep_your_distance, weight_those_buggers
 
 ## set some variables
 FRAME_TO_MATCH = 200
