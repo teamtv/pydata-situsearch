@@ -110,7 +110,7 @@ const useSearch = (datasetId) => {
       const json = await callApi(`datasets/${datasetId}/search/${frameId}`);
       const results = json.filter((result, n) => {
           for (const result_ of json.slice(0, n)) {
-            if (Math.abs(result_.frame_id - result.frame_id) < 30) {
+            if (Math.abs(result_.frame_id - result.frame_id) < 25 * 10) {
               return false;
             }
           }
