@@ -6,6 +6,8 @@ Based on work by [Joe Mulberry](https://pysport.org/2020/04/21/about-pysport/)
 
 Demo: https://pydata-situsearch.herokuapp.com/
 
+Video: https://www.youtube.com/watch?v=BobaHtafXm0
+
 ### Installation
 
 #### Clone the repository
